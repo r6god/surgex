@@ -17,7 +17,7 @@ const FALLBACK_LOGO_SVG = "data:image/svg+xml;utf8," + encodeURIComponent(`
       font-size='52' font-weight='900' fill='url(#g)'>SurgeX</text>
   </svg>`);
 
-function LogoImg({ width=160, height=54, className="" }:{width?:number;height?:number;className?:string}){
+function LogoImg({ width=120, height=40, className="" }:{width?:number;height?:number;className?:string}){
   const [src, setSrc] = useState<string>(LOGO_PATH);
   return <img src={src} alt="SurgeX Logo" width={width} height={height} className={className} loading="lazy" decoding="async" onError={()=> src!==FALLBACK_LOGO_SVG && setSrc(FALLBACK_LOGO_SVG)} style={{ filter: "drop-shadow(0 8px 26px rgba(34,211,238,0.25))" }} />;
 }
@@ -57,16 +57,10 @@ export default function Page(){
   return (
     <div className="min-h-screen bg-[#07090B] text-white selection:bg-cyan-500/20 selection:text-cyan-200">
 
-      {/* Background */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute -top-40 left-1/2 h-[28rem] w-[48rem] -translate-x-1/2 rounded-full blur-3xl opacity-35 bg-[conic-gradient(from_210deg_at_50%_50%,rgba(34,211,238,0.35),rgba(16,185,129,0.35),transparent_70%)]" />
-        <div className="absolute bottom-[-10%] left-1/2 h-[42rem] w-[70rem] -translate-x-1/2 rounded-[60%] blur-3xl opacity-20 bg-[radial-gradient(ellipse_at_center,rgba(34,197,94,0.35),transparent_60%)]" />
-      </div>
-
-      {/* Header */}
-      <header className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-white/10 sticky top-0 z-20 bg-black/50 backdrop-blur-xl">
-        <div className="flex items-center gap-3"><LogoImg width={150} height={50} /></div>
-        <nav className="hidden md:flex items-center gap-7 text-sm text-gray-300">
+      {/* Header (smaller) */}
+      <header className="flex items-center justify-between px-4 md:px-8 py-2 md:py-3 h-14 md:h-16 border-b border-white/10 sticky top-0 z-20 bg-black/50 backdrop-blur-xl">
+        <div className="flex items-center gap-3"><LogoImg /></div>
+        <nav className="hidden md:flex items-center gap-6 text-sm text-gray-300">
           <a className="hover:text-cyan-400" href="#features">Features</a>
           <a className="hover:text-cyan-400" href="#how-it-works">How it works</a>
           <a className="hover:text-cyan-400" href="#token">Token</a>
@@ -74,14 +68,14 @@ export default function Page(){
           <a className="hover:text-cyan-400" href="#roadmap">Roadmap</a>
           <a className="hover:text-cyan-400" href="#faq">FAQ</a>
         </nav>
-        <div className="flex items-center gap-2"><Button className="rounded-xl">Join Waitlist</Button></div>
+        <div className="flex items-center gap-2"><Button className="h-9 px-3 rounded-lg text-sm">Join Waitlist</Button></div>
       </header>
 
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 md:px-10 pt-20 pb-24 md:pb-32">
           <motion.div {...fadeUp()}>
-            <div className="flex justify-center mb-8"><LogoImg width={256} height={86} /></div>
+            <div className="flex justify-center mb-8"><img src={LOGO_PATH} width={256} height={86} alt="SurgeX Logo"/></div>
             <h1 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight">
               <span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-emerald-400 bg-clip-text text-transparent">{HEADLINE}</span>
             </h1>
@@ -94,17 +88,11 @@ export default function Page(){
               <Button type="submit" disabled={isSubmitDisabled} className="px-6 py-6 text-base rounded-xl">{status==="submitting"?"Submitting…":"Notify Me"}<ArrowRight className="ml-2 h-4 w-4" /></Button>
             </form>
             {message && (<p role="status" className={`mt-3 text-center text-sm ${status==="success"?"text-green-400":"text-red-400"}`}>{message}</p>)}
-
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-5 text-gray-300 text-sm">
-              {[ [ShieldCheck,"Non‑custodial"], [Clock,"Real‑time alerts"], [Sparkles,"AI scoring"] ].map(([Icon,label]:any,i:number)=>(
-                <div key={i} className="flex items-center gap-2">{/* @ts-ignore */}<Icon className="h-4 w-4 text-cyan-400"/><span>{label}</span></div>
-              ))}
-            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Features */}
+      {/* Rest of sections */}
       <section id="features" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <motion.h2 {...fadeUp()} className="text-2xl md:text-3xl font-bold text-white mb-6">Why SurgeX</motion.h2>
         <motion.p {...fadeUp(1)} className="text-gray-400 max-w-3xl mb-10">
@@ -126,7 +114,6 @@ export default function Page(){
         </div>
       </section>
 
-      {/* How it works */}
       <section id="how-it-works" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <motion.h2 {...fadeUp()} className="text-2xl md:text-3xl font-bold mb-8">How It Works</motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -143,7 +130,6 @@ export default function Page(){
         </div>
       </section>
 
-      {/* Token */}
       <section id="token" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <motion.h2 {...fadeUp()} className="text-2xl md:text-3xl font-bold mb-6">SURGEX Token</motion.h2>
         <motion.p {...fadeUp(1)} className="text-gray-400 max-w-3xl mb-10">
@@ -173,43 +159,8 @@ export default function Page(){
             </CardContent></GradientCard>
           </motion.div>
         </div>
-
-        <motion.div {...fadeUp(5)} className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <GradientCard><CardContent className="p-6">
-            <h3 className="font-semibold text-white">Utility</h3>
-            <ul className="mt-3 space-y-2 text-sm text-gray-300">
-              {[ "Stake to unlock Pro/Elite signal tiers", "Fee discounts on trade routing and alerts", "Access to priority listings & beta features", "Governance on feature roadmap & emissions" ].map((t,i)=>(
-                <li key={i} className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-400"/><span>{t}</span></li>
-              ))}
-            </ul>
-          </CardContent></GradientCard>
-
-          <GradientCard><CardContent className="p-6">
-            <h3 className="font-semibold text-white">Tokenomics (draft)</h3>
-            <div className="mt-4 space-y-3">
-              {[
-                { label:"Liquidity", p:20 }, { label:"Community & Incentives", p:30 }, { label:"Team (24m vest)", p:15 },
-                { label:"Treasury", p:20 }, { label:"Partners & Advisors (18m vest)", p:10 }, { label:"Reserve", p:5 },
-              ].map((a)=>(
-                <div key={a.label}>
-                  <div className="flex justify-between text-xs text-gray-400"><span>{a.label}</span><span>{a.p}%</span></div>
-                  <div className="mt-1 h-2 rounded-full bg-white/5 overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-cyan-400 to-emerald-400" style={{ width: `${a.p}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="mt-3 text-xs text-gray-500">Draft figures • subject to change after audits and market conditions.</p>
-          </CardContent></GradientCard>
-        </motion.div>
-
-        <div className="mt-10 flex flex-wrap items-center gap-3">
-          <Button className="rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-bold">Read Litepaper</Button>
-          <Button variant="outline" className="rounded-xl border-white/10 text-white hover:bg-white/5">View Tokenlist</Button>
-        </div>
       </section>
 
-      {/* Compare */}
       <section id="compare" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <motion.h2 {...fadeUp()} className="text-2xl md:text-3xl font-bold mb-6">Why SurgeX vs Axiom</motion.h2>
         <motion.p {...fadeUp(1)} className="text-gray-400 max-w-3xl mb-10">
@@ -236,7 +187,6 @@ export default function Page(){
         </div>
       </section>
 
-      {/* Roadmap */}
       <section id="roadmap" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <motion.h2 {...fadeUp()} className="text-2xl md:text-3xl font-bold mb-6">Roadmap</motion.h2>
         <div className="relative pl-6">
@@ -259,7 +209,6 @@ export default function Page(){
         </div>
       </section>
 
-      {/* CTA strip */}
       <section className="relative border-y border-white/10 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent">
         <div className="mx-auto max-w-7xl px-6 md:px-10 py-14 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
@@ -270,7 +219,6 @@ export default function Page(){
         </div>
       </section>
 
-      {/* FAQ */}
       <section id="faq" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <motion.h2 {...fadeUp()} className="text-2xl md:text-3xl font-bold mb-6">FAQ</motion.h2>
         <div className="space-y-4">
@@ -291,10 +239,9 @@ export default function Page(){
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="px-6 md:px-10 py-14 border-t border-white/10 text-gray-400">
         <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-          <div className="flex items-center gap-3"><LogoImg width={130} height={44} /></div>
+          <div className="flex items-center gap-3"><LogoImg /></div>
           <nav className="grid grid-cols-2 gap-4 text-sm">
             <a className="hover:text-cyan-400" href="#features">Features</a>
             <a className="hover:text-cyan-400" href="#how-it-works">How it works</a>
