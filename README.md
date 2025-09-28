@@ -1,14 +1,10 @@
-# SurgeX Landing (Updated)
+# SurgeX Landing (TypeScript Fix)
 
-- Fixed imports to **relative paths** (no tsconfig alias required)
-- Next.js 14 + Tailwind + Framer Motion + Lucide
-- Sections: Hero, Features, How it works, Token (Solana), Compare vs Axiom, Footer
+Includes `@types/node` and `next-env.d.ts` so Next.js type-check passes on Vercel.
 
-## Local Dev
-```bash
+## Quick start
 npm i
 npm run dev
-```
 
-## Deploy (Vercel)
-Push to GitHub → Import in Vercel (Next.js). No special config needed.
+## Deploy
+Push to GitHub → Import into Vercel (Next.js).
