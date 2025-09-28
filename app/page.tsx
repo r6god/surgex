@@ -11,8 +11,8 @@ const HEADLINE = "SurgeX is Coming Soon";
 const LOGO_PATH = "/surgex-logo.png";
 const FALLBACK_LOGO_SVG = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 120'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop offset='0%' stop-color='#22d3ee'/><stop offset='100%' stop-color='#34d399'/></linearGradient></defs><text x='50%' y='55%' text-anchor='middle' dominant-baseline='middle' font-family='Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif' font-size='52' font-weight='900' fill='url(#g)'>SurgeX</text></svg>`);
 
-const DEMO_EMBED_URL = ""; // set to a YouTube/Loom embed to show iframe
-const DEMO_IMAGE = "/demo-screenshot.png"; // fallback image path
+const DEMO_EMBED_URL = "";
+const DEMO_IMAGE = "/demo-screenshot.png";
 
 function LogoImg({ width=120, height=40, className="" }:{width?:number;height?:number;className?:string}){
   const [src, setSrc] = useState<string>(LOGO_PATH);

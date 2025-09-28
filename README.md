@@ -1,8 +1,8 @@
-# SurgeX Landing — Full + Demo Image Fallback (stable link)
+# SurgeX Landing — Full site + Demo image included
 
 - Header button: **View Demo** (#demo)
-- Demo shows iframe if `DEMO_EMBED_URL` is set, otherwise `/public/demo-screenshot.png`
-- Full sections included (Hero, Demo, Features, How It Works, Token, Compare, Roadmap, CTA, FAQ, Footer)
+- Demo uses `/public/demo-screenshot.png` (already included)
+- Full sections included
 - Compact navbar + compact email form
 - TypeScript ready
 
