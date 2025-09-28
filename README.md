@@ -1,10 +1,11 @@
-# SurgeX Landing (TypeScript Fix)
+# SurgeX Landing — Full Version
 
-Includes `@types/node` and `next-env.d.ts` so Next.js type-check passes on Vercel.
+Includes all sections: Hero, Features, How It Works, Token (Solana), Compare vs Axiom, Roadmap, CTA, FAQ, Footer.
+Built with Next.js 14 + Tailwind + Framer Motion + Lucide. TypeScript ready.
 
-## Quick start
+## Dev
 npm i
 npm run dev
 
 ## Deploy
-Push to GitHub → Import into Vercel (Next.js).
+Push to GitHub → import in Vercel (Next.js). Nothing special required.

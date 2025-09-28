@@ -1,1 +1,4 @@
-@tailwind base;@tailwind components;@tailwind utilities;:root{--bg:#07090B} html,body{background:var(--bg)}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root{--bg:#07090B} html,body{background:var(--bg)}
