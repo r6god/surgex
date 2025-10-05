@@ -117,7 +117,7 @@ export default function Page(){
           <a className="hover:text-cyan-400" href="#roadmap">Roadmap</a>
           <a className="hover:text-cyan-400" href="#faq">FAQ</a>
         </nav>
-        <div className="flex items-center gap-2"></div>
+        <div className="flex items-center gap-2"><a href="#demo" className="inline-flex items-center justify-center h-9 px-3 rounded-lg text-sm bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-bold shadow hover:from-cyan-300 hover:to-emerald-300">View Demo</a></div>
       </header>
 
       {/* Hero */}
