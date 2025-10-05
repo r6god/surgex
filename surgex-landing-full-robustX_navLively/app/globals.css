@@ -1,0 +1,12 @@
+@tailwind base;@tailwind components;@tailwind utilities;:root{--bg:#07090B} html,body{background:var(--bg)}
+
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+section{scroll-margin-top:88px}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(10px,-10px) scale(1.05)}100%{transform:translate(0,0) scale(1)}}
+@keyframes driftSlow{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-12px,10px) scale(1.06)}100%{transform:translate(0,0) scale(1)}}
+.animate-float{animation:float 6s ease-in-out infinite}
+.animate-drift{animation:drift 12s ease-in-out infinite}
+.animate-drift-slow{animation:driftSlow 18s ease-in-out infinite}
+
