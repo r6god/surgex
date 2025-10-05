@@ -17,48 +17,7 @@ const DEMO_IMAGE_INLINE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABgAAAAQ
 
 function LogoImg({ width = 160, height = 54, className = "" }:{width?:number;height?:number;className?:string}) {
   const [src, setSrc] = useState<string>(LOGO_PATH);
-  
-  // Smooth anchor scrolling with sticky-header offset + active link highlight
-  useEffect(() => {
-    const header = document.querySelector('header');
-    const links = Array.from(document.querySelectorAll('a.navlink')) as HTMLAnchorElement[];
-    const smoothTo = (id: string) => {
-      const el = document.querySelector(id);
-      if (!el) return;
-      const top = (el as HTMLElement).getBoundingClientRect().top + window.scrollY - (header?.clientHeight || 0) - 8;
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollTo(prefersReduced ? { top } : { top, behavior: 'smooth' });
-    };
-    const onClick = (e: Event) => {
-      const a = e.currentTarget as HTMLAnchorElement;
-      if (!a?.hash) return;
-      e.preventDefault();
-      smoothTo(a.hash);
-    };
-    links.forEach(a => a.addEventListener('click', onClick));
-
-    const ids = ['#features','#how','#token','#compare','#roadmap','#faq'];
-    const sections = ids.map((id) => document.querySelector(id)).filter(Boolean) as HTMLElement[];
-    const byId = (id: string) => links.find(a => a.getAttribute('href') === id);
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const id = '#' + (entry.target as HTMLElement).id;
-        const link = byId(id);
-        if (!link) return;
-        if (entry.isIntersecting) {
-          links.forEach(l => l.classList.remove('text-cyan-400','font-semibold'));
-          link.classList.add('text-cyan-400','font-semibold');
-        }
-      });
-    }, { rootMargin: '-60% 0px -35% 0px', threshold: 0.01 });
-    sections.forEach(s => io.observe(s));
-
-    return () => {
-      links.forEach(a => a.removeEventListener('click', onClick));
-      io.disconnect();
-    };
-  }, []);
-return (
+  return (
     <img src={src} alt="SurgeX Logo" width={width} height={height} className={className} loading="lazy" decoding="async" onError={() => setSrc(FALLBACK_LOGO_SVG)} style={{ filter: "drop-shadow(0 8px 26px rgba(34,211,238,0.25))" }} />
   );
 }
@@ -151,12 +110,12 @@ export default function Page(){
       <header className="flex items-center justify-between px-4 md:px-8 py-2 md:py-3 h-14 md:h-16 border-b border-white/10 sticky top-0 z-20 bg-black/50 backdrop-blur-xl">
         <div className="flex items-center gap-3"><LogoImg width={120} height={40}/></div>
         <nav className="hidden md:flex items-center gap-6 text-sm text-gray-300">
-          <a className="navlink hover:text-cyan-400" href="#features">Features</a>
-          <a className="navlink hover:text-cyan-400" href="#how-it-works">How it works</a>
-          <a className="navlink hover:text-cyan-400" href="#token">Token</a>
-          <a className="navlink hover:text-cyan-400" href="#compare">Compare</a>
-          <a className="navlink hover:text-cyan-400" href="#roadmap">Roadmap</a>
-          <a className="navlink hover:text-cyan-400" href="#faq">FAQ</a>
+          <a className="hover:text-cyan-400" href="#features">Features</a>
+          <a className="hover:text-cyan-400" href="#how-it-works">How it works</a>
+          <a className="hover:text-cyan-400" href="#token">Token</a>
+          <a className="hover:text-cyan-400" href="#compare">Compare</a>
+          <a className="hover:text-cyan-400" href="#roadmap">Roadmap</a>
+          <a className="hover:text-cyan-400" href="#faq">FAQ</a>
         </nav>
         <div className="flex items-center gap-2"></div>
       </header>
@@ -166,7 +125,7 @@ export default function Page(){
         <div className="mx-auto max-w-7xl px-6 md:px-10 pt-20 pb-24 md:pb-32">
           <motion.div initial={{opacity:0,y:12}} whileInView={{opacity:1,y:0}} transition={{duration:0.6}} viewport={{once:true, amount:0.2}}>
             <div className="flex justify-center mb-8"><LogoImg width={256} height={86}/></div>
-            <h1 className="text-center text-4xl md:text-7xl font-extrabold tracking-tight"><span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-emerald-400 bg-clip-text text-transparent">{HEADLINE}</span></h1>
+            <h1 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight"><span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-emerald-400 bg-clip-text text-transparent">{HEADLINE}</span></h1>
             <p className="mt-6 text-center text-gray-300 text-lg max-w-3xl mx-auto">The AI-driven memecoin trading hub. Discover early opportunities, catch surges ahead of the crowd, and trade with confidence using on-chain analytics and sentiment models.</p>
             <form onSubmit={onSubmit} className="mt-6 flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
               <Input type="email" placeholder="Enter your email" aria-label="Email address" value={email} onChange={(e:any)=>setEmail(e.target.value)} className="px-4 py-3 text-sm rounded-lg h-10" required />
@@ -177,10 +136,14 @@ export default function Page(){
         </div>
       </section>
 
-      
+      {/* Demo */}
+      <section id="demo" className="mx-auto max-w-7xl px-6 md:px-10 py-16">
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Product Demo</h2>
+        <GradientCard><div className="p-3"><DemoMedia/></div></GradientCard>
+      </section>
 
       {/* Features */}
-      <section id="features" className="reveal mx-auto max-w-7xl px-6 md:px-10 py-24>
+      <section id="features" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Why SurgeX</h2>
         <p className="text-gray-400 max-w-3xl mb-10">Purpose-built for memecoins: speed, signals, and social context. Our AI helps filter noise and surface what actually moves.</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -214,7 +177,7 @@ export default function Page(){
             { step: "3", title: "Alert", desc: "You get configurable alerts as conditions trigger." },
             { step: "4", title: "Trade", desc: "Route to DEX with presets. Track PnL and badges." },
           ].map((s) => (
-            <div key={s.step} className="rounded-2xl border border-gray-800 bg-gray-900/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/30 hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,.6)]">
+            <div key={s.step} className="rounded-2xl border border-gray-800 bg-gray-900/60 p-6">
               <div className="text-cyan-400 text-sm">Step {s.step}</div>
               <div className="mt-1 text-white font-semibold">{s.title}</div>
               <p className="mt-2 text-sm text-gray-400">{s.desc}</p>
@@ -224,7 +187,7 @@ export default function Page(){
       </section>
 
       {/* Token */}
-      <section id="token" className="reveal mx-auto max-w-7xl px-6 md:px-10 py-24>
+      <section id="token" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">SURGEX Token</h2>
         <p className="text-gray-400 max-w-3xl mb-10">SURGEX (<span className="text-white/90 font-semibold">$SRGX</span>) is the utility token powering access to premium AI signals, staking tiers, trading fee discounts, and governance on SurgeX. Contract: <span className="text-gray-300">TBA (after audit)</span>.</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -239,7 +202,7 @@ export default function Page(){
       </section>
 
       {/* Compare */}
-      <section id="compare" className="reveal mx-auto max-w-7xl px-6 md:px-10 py-24>
+      <section id="compare" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Why SurgeX vs Axiom</h2>
         <p className="text-gray-400 max-w-3xl mb-10">Axiom is a solid general screener. SurgeX is <span className="text-white/90 font-semibold">purpose‑built for Solana memecoins</span> with AI‑assisted discovery and trader‑first tools.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -249,7 +212,7 @@ export default function Page(){
       </section>
 
       {/* Roadmap */}
-      <section id="roadmap" className="reveal mx-auto max-w-7xl px-6 md:px-10 py-24>
+      <section id="roadmap" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Roadmap</h2>
         <div className="relative pl-6">
           <div className="absolute left-2 top-0 bottom-0 w-px bg-white/10" />
@@ -280,7 +243,7 @@ export default function Page(){
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="reveal mx-auto max-w-7xl px-6 md:px-10 py-24>
+      <section id="faq" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">FAQ</h2>
         <div className="space-y-4">
           {[
@@ -291,7 +254,7 @@ export default function Page(){
           ].map((f) => (
             <details key={f.q} className="group rounded-2xl border border-white/10 bg-gray-900/50 p-5">
               <summary className="list-none cursor-pointer flex items-center justify-between text-white font-medium">
-                {f.q}<span className="ml-4 text-white/50 group-hover:text-cyan-300 group-open:rotate-90 transition-transform">›</span>
+                {f.q}<span className="ml-4 text-gray-400 group-open:rotate-90 transition-transform">›</span>
               </summary>
               <p className="mt-3 text-gray-400 text-sm">{f.a}</p>
             </details>
@@ -304,17 +267,17 @@ export default function Page(){
         <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           <div className="flex items-center gap-3"><LogoImg width={130} height={44}/></div>
           <nav className="grid grid-cols-2 gap-4 text-sm">
-            <a className="navlink hover:text-cyan-400" href="#features">Features</a>
-            <a className="navlink hover:text-cyan-400" href="#how-it-works">How it works</a>
-            <a className="navlink hover:text-cyan-400" href="#token">Token</a>
-            <a className="navlink hover:text-cyan-400" href="#compare">Compare</a>
-            <a className="navlink hover:text-cyan-400" href="#roadmap">Roadmap</a>
-            <a className="navlink hover:text-cyan-400" href="#faq">FAQ</a>
+            <a className="hover:text-cyan-400" href="#features">Features</a>
+            <a className="hover:text-cyan-400" href="#how-it-works">How it works</a>
+            <a className="hover:text-cyan-400" href="#token">Token</a>
+            <a className="hover:text-cyan-400" href="#compare">Compare</a>
+            <a className="hover:text-cyan-400" href="#roadmap">Roadmap</a>
+            <a className="hover:text-cyan-400" href="#faq">FAQ</a>
           </nav>
           <div className="flex justify-start md:justify-end items-center gap-4 text-sm">
-            <a className="navlink hover:text-cyan-400" href="#"><Twitter className="h-5 w-5"/></a>
-            <a className="navlink hover:text-cyan-400" href="#"><Mail className="h-5 w-5"/></a>
-            <a className="navlink hover:text-cyan-400" href="#"><Github className="h-5 w-5"/></a>
+            <a className="hover:text-cyan-400" href="#"><Twitter className="h-5 w-5"/></a>
+            <a className="hover:text-cyan-400" href="#"><Mail className="h-5 w-5"/></a>
+            <a className="hover:text-cyan-400" href="#"><Github className="h-5 w-5"/></a>
           </div>
         </div>
         <div className="mx-auto max-w-7xl mt-8 text-xs text-gray-500">© {new Date().getFullYear()} SurgeX — Meme responsibly. Not financial advice.</div>
