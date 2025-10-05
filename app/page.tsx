@@ -17,7 +17,48 @@ const DEMO_IMAGE_INLINE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABgAAAAQ
 
 function LogoImg({ width = 160, height = 54, className = "" }:{width?:number;height?:number;className?:string}) {
   const [src, setSrc] = useState<string>(LOGO_PATH);
-  return (
+  
+  // Smooth anchor scrolling with sticky-header offset + active link highlight
+  useEffect(() => {
+    const header = document.querySelector('header');
+    const links = Array.from(document.querySelectorAll('a.navlink')) as HTMLAnchorElement[];
+    const smoothTo = (id: string) => {
+      const el = document.querySelector(id);
+      if (!el) return;
+      const top = (el as HTMLElement).getBoundingClientRect().top + window.scrollY - (header?.clientHeight || 0) - 8;
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo(prefersReduced ? { top } : { top, behavior: 'smooth' });
+    };
+    const onClick = (e: Event) => {
+      const a = e.currentTarget as HTMLAnchorElement;
+      if (!a?.hash) return;
+      e.preventDefault();
+      smoothTo(a.hash);
+    };
+    links.forEach(a => a.addEventListener('click', onClick));
+
+    const sections = ['#features','#how-it-works','#token','#compare','#roadmap','#faq']
+      .map(id => document.querySelector(id)).filter(Boolean) as HTMLElement[];
+    const byId = (id: string) => links.find(a => a.getAttribute('href') === id);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = '#' + (entry.target as HTMLElement).id;
+        const link = byId(id);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('text-cyan-400','font-semibold'));
+          link.classList.add('text-cyan-400','font-semibold');
+        }
+      });
+    }, { rootMargin: '-60% 0px -35% 0px', threshold: 0.01 });
+    sections.forEach(s => io.observe(s));
+
+    return () => {
+      links.forEach(a => a.removeEventListener('click', onClick));
+      io.disconnect();
+    };
+  }, []);
+return (
     <img src={src} alt="SurgeX Logo" width={width} height={height} className={className} loading="lazy" decoding="async" onError={() => setSrc(FALLBACK_LOGO_SVG)} style={{ filter: "drop-shadow(0 8px 26px rgba(34,211,238,0.25))" }} />
   );
 }
@@ -110,12 +151,12 @@ export default function Page(){
       <header className="flex items-center justify-between px-4 md:px-8 py-2 md:py-3 h-14 md:h-16 border-b border-white/10 sticky top-0 z-20 bg-black/50 backdrop-blur-xl">
         <div className="flex items-center gap-3"><LogoImg width={120} height={40}/></div>
         <nav className="hidden md:flex items-center gap-6 text-sm text-gray-300">
-          <a className="hover:text-cyan-400" href="#features">Features</a>
-          <a className="hover:text-cyan-400" href="#how-it-works">How it works</a>
-          <a className="hover:text-cyan-400" href="#token">Token</a>
-          <a className="hover:text-cyan-400" href="#compare">Compare</a>
-          <a className="hover:text-cyan-400" href="#roadmap">Roadmap</a>
-          <a className="hover:text-cyan-400" href="#faq">FAQ</a>
+          <a className="navlink hover:text-cyan-400" href="#features">Features</a>
+          <a className="navlink hover:text-cyan-400" href="#how-it-works">How it works</a>
+          <a className="navlink hover:text-cyan-400" href="#token">Token</a>
+          <a className="navlink hover:text-cyan-400" href="#compare">Compare</a>
+          <a className="navlink hover:text-cyan-400" href="#roadmap">Roadmap</a>
+          <a className="navlink hover:text-cyan-400" href="#faq">FAQ</a>
         </nav>
         <div className="flex items-center gap-2"><a href="#demo" className="inline-flex items-center justify-center h-9 px-3 rounded-lg text-sm bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-bold shadow hover:from-cyan-300 hover:to-emerald-300">View Demo</a></div>
       </header>
@@ -136,11 +177,7 @@ export default function Page(){
         </div>
       </section>
 
-      {/* Demo */}
-      <section id="demo" className="mx-auto max-w-7xl px-6 md:px-10 py-16">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Product Demo</h2>
-        <GradientCard><div className="p-3"><DemoMedia/></div></GradientCard>
-      </section>
+      
 
       {/* Features */}
       <section id="features" className="mx-auto max-w-7xl px-6 md:px-10 py-24">
